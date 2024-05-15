@@ -1,3 +1,5 @@
+using MyBGList;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -25,6 +27,21 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapGet("/error", () => Results.Problem());
 app.MapGet("/error/test", () => { throw new Exception("test"); });
+app.MapGet("/BoardGames", () => new[] {
+new BoardGame() {
+Id = 1,
+Name = "Axis & Allies",
+Year = 1981
+},
+new BoardGame() {
+Id = 2,
+Name = "Citadels",
+Year = 2000
+},
+new BoardGame() {
+Id = 3,
+Name = "Terraforming Mars",
+Year = 2016
+} } );
 app.MapControllers();
-
 app.Run();
