@@ -12,11 +12,12 @@ builder.Services.AddSwaggerGen(opt => opt.ResolveConflictingActions(apiDesc => a
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
+if (app.Configuration.GetValue<bool>("UseSwagger"))
+    {
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+    }
+
 if(app.Configuration.GetValue<bool>("UseDeveloperExceptionPage"))
     app.UseDeveloperExceptionPage();
 else
@@ -27,21 +28,21 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapGet("/error", () => Results.Problem());
 app.MapGet("/error/test", () => { throw new Exception("test"); });
-app.MapGet("/BoardGames", () => new[] {
-new BoardGame() {
-Id = 1,
-Name = "Axis & Allies",
-Year = 1981
-},
-new BoardGame() {
-Id = 2,
-Name = "Citadels",
-Year = 2000
-},
-new BoardGame() {
-Id = 3,
-Name = "Terraforming Mars",
-Year = 2016
-} } );
+//app.MapGet("/BoardGames", () => new[] {
+//new BoardGame() {
+//Id = 1,
+//Name = "Axis & Allies",
+//Year = 1981
+//},
+//new BoardGame() {
+//Id = 2,
+//Name = "Citadels",
+//Year = 2000
+//},
+//new BoardGame() {
+//Id = 3,
+//Name = "Terraforming Mars",
+//Year = 2016
+//} } );
 app.MapControllers();
 app.Run();
